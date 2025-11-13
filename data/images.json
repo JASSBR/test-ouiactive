@@ -1,0 +1,23 @@
+[
+  {
+    "id": "img-reaction-hcl",
+    "url": "/images/molecules/reaction-hcl.png",
+    "alt": "Mécanisme réactionnel de l'addition de HCl",
+    "tags": ["chimie", "réaction", "HCl", "organique"],
+    "associatedExercise": { "id": "ex-001", "title": "Addition de HCl - mécanisme et questions" }
+  },
+  {
+    "id": "img-carbon-types",
+    "url": "/images/molecules/carbon-types.png",
+    "alt": "Classification des atomes de carbone",
+    "tags": ["chimie", "carbon", "structure", "organyque"],
+    "associatedExercise": null
+  },
+  {
+    "id": "img-carbocations",
+    "url": "/images/molecules/carbocations.png",
+    "alt": "Effet mésomère et carbocations",
+    "tags": ["chimie", "carbocation", "mésomère", "réaction"],
+    "associatedExercise": { "id": "ex-002", "title": "Carbocations et mésomérie" }
+  }
+]
