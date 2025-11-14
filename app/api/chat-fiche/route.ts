@@ -1,9 +1,20 @@
 import { streamText } from "ai"
+import { NextResponse } from "next/server"
 
 export const maxDuration = 30
 
+interface ChatRequest {
+  message: string
+  subject: string
+  topic: string
+}
+
+interface ChatResponse {
+  response: string
+}
+
 export async function POST(req: Request) {
-  const { message, subject, topic } = await req.json()
+  const { message, subject, topic } = await req.json() as ChatRequest
 
   const systemPrompt = `Tu es DinoBot, un assistant pédagogique sympathique et expert en ${subject}. 
 Tu aides les élèves à comprendre le cours sur "${topic}".
@@ -35,5 +46,5 @@ Si l'élève pose une question hors sujet, ramène-le gentiment au cours.`
     fullText += chunk
   }
 
-  return Response.json({ response: fullText })
+  return NextResponse.json<ChatResponse>({ response: fullText })
 }

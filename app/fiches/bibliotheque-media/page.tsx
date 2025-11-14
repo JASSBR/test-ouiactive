@@ -5,16 +5,7 @@ import { ArrowLeft, Search, X, Tag, Calendar, FileImage } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-
-interface MediaImage {
-  id: string
-  url: string
-  name: string
-  tags: string[]
-  dateAdded: string
-  type: string
-  description: string
-}
+import type { MediaImage } from "@/types"
 
 export default function BibliothequeMediaPage() {
   const [selectedImage, setSelectedImage] = useState<MediaImage | null>(null)

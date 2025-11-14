@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import fs from "fs"
 import path from "path"
 import crypto from "crypto"
+import type { ImageMeta, ImageSearchResponse } from "@/types"
 
 // Prototype image-search endpoint.
 // Accepts JSON { imageBase64: string } where imageBase64 is the image data (no data: prefix).
@@ -9,10 +10,10 @@ import crypto from "crypto"
 // Additionally, computes a SHA256 of the uploaded image and compares against images in public
 // to detect exact file matches. If a match is found, returns `matched` with image metadata.
 
-function readImages() {
+function readImages(): ImageMeta[] {
   const p = path.join(process.cwd(), "data", "images.json")
   try {
-    return JSON.parse(fs.readFileSync(p, "utf8"))
+    return JSON.parse(fs.readFileSync(p, "utf8")) as ImageMeta[]
   } catch (e) {
     return []
   }
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
 
     // Read known images and compute hashes to find exact match
     const images = readImages()
-    let matched = null
+    let matched: ImageMeta | null = null
 
     for (const img of images) {
       try {
@@ -67,7 +68,7 @@ export async function POST(req: Request) {
     // Return candidate images (for now simply return all images as suggestions)
     const candidates = images
 
-    return NextResponse.json({ uploaded: `/uploads/${filename}`, candidates, matched })
+    return NextResponse.json<ImageSearchResponse>({ uploaded: `/uploads/${filename}`, candidates, matched })
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 })
   }

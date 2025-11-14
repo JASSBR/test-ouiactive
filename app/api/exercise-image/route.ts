@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server"
 import fs from "fs"
 import path from "path"
-
-type ImageMeta = { id: string; url: string; alt?: string; tags?: string[] }
+import type { ImageMeta, ExerciseImageResponse } from "@/types"
 
 function readImages(): ImageMeta[] {
   const p = path.join(process.cwd(), "data", "images.json")
@@ -34,7 +33,7 @@ export async function POST(req: Request) {
     const { title, description, tags } = body || {}
     const images = readImages()
 
-    const keywords = [] as string[]
+    const keywords: string[] = []
     if (title) keywords.push(...String(title).split(/[^\p{L}\d]+/u).filter(Boolean))
     if (description) keywords.push(...String(description).split(/[^\p{L}\d]+/u).filter(Boolean))
     if (Array.isArray(tags)) keywords.push(...tags.map(String))
@@ -53,10 +52,10 @@ export async function POST(req: Request) {
     const best = scored.length ? scored[0] : null
     if (!best || best.score === 0) {
       // no good match -> return null so client can fallback
-      return NextResponse.json({ image: null })
+      return NextResponse.json<ExerciseImageResponse>({ image: null })
     }
 
-    return NextResponse.json({ image: best.img })
+    return NextResponse.json<ExerciseImageResponse>({ image: best.img })
   } catch (err) {
     return NextResponse.json({ image: null, error: String(err) }, { status: 500 })
   }
